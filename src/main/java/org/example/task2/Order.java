@@ -1,40 +1,47 @@
 package org.example.task2;
 
 public class Order {
+    private long id;
+    private String customer;
 
-    public long id;
-    public String customer;
+    public Order(long id, String customer)
+    {
+        this.setId(id);
+        this.setCustomer(customer);
+    }
 
-    public Order(long id, String customer) {
+    private void setId(long id)
+    {
         this.id = id;
+    }
+
+    private void setCustomer(String customer)
+    {
         this.customer = customer;
     }
 
-    public String formOrderBill(Cart cart) {
-
+    public String formOrderBill(Cart cart)
+    {
         StringBuilder builder = new StringBuilder();
-        builder.append("Order number ").append(id).append(" for customer ").append(customer);
+        builder.append("Order number ").append(this.id)
+                .append(" for customer ").append(this.customer);
         builder.append("\n------------------\n");
 
         double sum = 0.0;
 
-        for (int i = 0; i < cart.index; i++) {
+        for (int i = 0; i < cart.getItemCount(); i++)
+        {
+            Item item = cart.getItem(i);
+            sum += item.getPrice();
 
-            sum += cart.contents[i].price;
-
-            builder.append("Item id: ");
-            builder.append(cart.contents[i].id);
-            builder.append(" name: ");
-            builder.append(cart.contents[i].name);
-            builder.append(" price: ");
-            builder.append(cart.contents[i].price);
-            builder.append("\n");
+            builder.append("Item id: ").append(item.getId())
+                    .append(" name: ").append(item.getName())
+                    .append(" price: ").append(item.getPrice())
+                    .append("\n");
         }
 
         builder.append("------------------\n");
-        builder.append("Total sum: ");
-        builder.append(sum);
-
+        builder.append("Total sum: ").append(sum);
 
         return builder.toString();
     }
